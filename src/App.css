@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* NAVBAR */
 .nav {
   display: flex;
@@ -11,10 +12,29 @@
 .nav-links {
   display: flex;
   gap: 25px;
+=======
+body, html, #root, .App {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e293b;
+  color: white;
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+>>>>>>> 0f0d56cafc9ff6ef9299927be8d688d7528fc898
 }
 
 .nav-links a {
   color: white;
+<<<<<<< HEAD
   font-weight: 500;
 }
 
@@ -55,10 +75,54 @@
 
 .product-card:hover {
   transform: translateY(-5px);
+=======
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #f1f5f9;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 20px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  padding: 40px;
+}
+
+.product-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+>>>>>>> 0f0d56cafc9ff6ef9299927be8d688d7528fc898
 }
 
 .product-card img {
   width: 100%;
+<<<<<<< HEAD
   height: 180px;
   border-radius: 10px;
   object-fit: cover;
@@ -99,4 +163,58 @@
   background: #0f172a;
   color: white;
   margin-top: 30px;
+=======
+  border-radius: 8px;
+}
+
+.product-card button {
+  padding: 10px 15px;
+  background-color: #1e293b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background-color: #3b4a63;
+}
+
+.cart-section {
+  background-color: #f8fafc;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cart-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart-section li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.cart-section button {
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 5px 10px;
+}
+
+.contact-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f1f5f9;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  background-color: #1e293b;
+  color: white;
+>>>>>>> 0f0d56cafc9ff6ef9299927be8d688d7528fc898
 }
