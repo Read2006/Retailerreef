@@ -95,7 +95,7 @@ const RetailerReef = () => {
       <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl overflow-hidden">
         <div className="px-8 py-20 md:py-32 relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Welcome to RetailerReef</h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl">Your trusted destination for premium household essentials. Quality products at unbeatable prices.</p>
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl">Your trusted destination for premium household essentials. High-quality products, exceptional value, and customer satisfaction guaranteed.</p>
           <button 
             onClick={() => setCurrentPage('products')}
             className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition"
@@ -140,21 +140,40 @@ const RetailerReef = () => {
 
       {/* Featured Products */}
       <div>
-        <h2 className="text-3xl font-bold mb-8">Featured Products</h2>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Our Premium Collection</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Discover high-quality household essentials carefully selected for your home. Every product is tested for durability, functionality, and style.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {products.slice(0, 4).map(product => (
-            <div key={product.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition">
-              <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
+          {products.map(product => (
+            <div key={product.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition group">
+              <div className="relative overflow-hidden">
+                <img src={product.image} alt={product.name} className="w-full h-48 object-cover group-hover:scale-110 transition duration-300" />
+                <div className="absolute top-2 right-2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  {product.rating} ★
+                </div>
+              </div>
               <div className="p-4">
-                <h3 className="font-semibold mb-2 truncate">{product.name}</h3>
+                <h3 className="font-semibold mb-2 h-12 line-clamp-2">{product.name}</h3>
                 <div className="flex items-center mb-2">
-                  <Star className="text-yellow-400 fill-current" size={16} />
-                  <span className="ml-1 text-sm text-gray-600">{product.rating} ({product.reviews})</span>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={14}
+                        className={i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}
+                      />
+                    ))}
+                  </div>
+                  <span className="ml-2 text-sm text-gray-600">({product.reviews})</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-blue-600">${product.price}</span>
-                  <button onClick={() => addToCart(product)} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Add to Cart
+                  <button onClick={() => addToCart(product)} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-1">
+                    <Plus size={16} />
+                    Add
                   </button>
                 </div>
               </div>
@@ -166,18 +185,29 @@ const RetailerReef = () => {
       {/* Why Choose Us */}
       <div className="bg-gray-50 rounded-2xl p-8 md:p-12">
         <h2 className="text-3xl font-bold mb-6 text-center">Why Choose RetailerReef?</h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
           <div className="text-center">
             <h3 className="font-semibold text-lg mb-2">Premium Quality</h3>
-            <p className="text-gray-600">We source only the best quality household items from trusted manufacturers worldwide.</p>
+            <p className="text-gray-600">We source only the highest quality household items from trusted manufacturers worldwide. Every product meets our strict quality standards.</p>
           </div>
           <div className="text-center">
-            <h3 className="font-semibold text-lg mb-2">Best Prices</h3>
-            <p className="text-gray-600">Competitive pricing without compromising on quality. Save more on everyday essentials.</p>
+            <h3 className="font-semibold text-lg mb-2">Unbeatable Value</h3>
+            <p className="text-gray-600">Competitive pricing without compromising on quality. Get premium products at prices that fit your budget. Save more on everyday essentials.</p>
           </div>
           <div className="text-center">
-            <h3 className="font-semibold text-lg mb-2">Customer First</h3>
-            <p className="text-gray-600">Your satisfaction is our priority. Excellent customer service and support guaranteed.</p>
+            <h3 className="font-semibold text-lg mb-2">Customer Satisfaction</h3>
+            <p className="text-gray-600">Your happiness is our priority. Excellent customer service, easy returns, and 100% satisfaction guarantee on every purchase.</p>
+          </div>
+        </div>
+        <div className="text-center">
+          <p className="text-gray-700 text-lg font-medium mb-4">
+            "Quality you can trust, prices you'll love, service that exceeds expectations."
+          </p>
+          <div className="flex justify-center gap-4 flex-wrap text-sm text-gray-600">
+            <span>✓ Verified Quality Products</span>
+            <span>✓ Fast & Free Shipping</span>
+            <span>✓ Secure Checkout</span>
+            <span>✓ 24/7 Support</span>
           </div>
         </div>
       </div>
