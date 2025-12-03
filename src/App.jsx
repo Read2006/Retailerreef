@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./App.css";
 
 export default function App() {
   // Product list
@@ -13,87 +14,93 @@ export default function App() {
     { id: 8, name: "Vacuum Storage Bags", price: 15.99, img: "https://images.unsplash.com/photo-1612392061788-6600f2c82f2a?auto=format&fit=crop&w=400&q=80" },
     { id: 9, name: "Ceramic Mug Set", price: 29.99, img: "https://images.unsplash.com/photo-1584270354949-8d5f6e0f5f1f?auto=format&fit=crop&w=400&q=80" },
     { id: 10, name: "Wooden Cutting Board", price: 22.99, img: "https://images.unsplash.com/photo-1585238342022-cff38f3c3b11?auto=format&fit=crop&w=400&q=80" },
+    { id: 11, name: "Stainless Steel Mixing Bowls", price: 34.99, img: "https://images.unsplash.com/photo-1598511729356-1b2f6d4bdb2b?auto=format&fit=crop&w=400&q=80" },
+    { id: 12, name: "Kitchen Spice Rack", price: 27.99, img: "https://images.unsplash.com/photo-1612831455542-1fc3db245cde?auto=format&fit=crop&w=400&q=80" },
   ];
 
-  // Cart state
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("retailerreef_cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Save cart to localStorage
   useEffect(() => {
     localStorage.setItem("retailerreef_cart", JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product) => {
-    setCart(prev => [...prev, product]);
+    setCart(prev => {
+      const exist = prev.find(item => item.id === product.id);
+      if (exist) {
+        return prev.map(item => item.id === product.id ? {...item, quantity: item.quantity + 1} : item);
+      }
+      return [...prev, {...product, quantity: 1}];
+    });
   };
 
-  const removeFromCart = (index) => {
-    setCart(prev => prev.filter((_, i) => i !== index));
+  const removeFromCart = (id) => {
+    setCart(prev => prev.filter(item => item.id !== id));
   };
 
-  const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif" }}>
-      {/* NAVBAR */}
-      <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "#1e293b", padding: "15px 25px", color: "white", position: "sticky", top: 0, zIndex: 1000 }}>
-        <h2 style={{ margin: 0 }}>RetailerReef</h2>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <a style={{ color: "white", textDecoration: "none" }} href="#">Home</a>
-          <a style={{ color: "white", textDecoration: "none" }} href="#products">Products</a>
-          <a style={{ color: "white", textDecoration: "none" }} href="#cart">Cart ({cart.length})</a>
-          <a style={{ color: "white", textDecoration: "none" }} href="#contact">Contact Us</a>
+    <div className="App">
+      {/* Navbar */}
+      <nav className="navbar">
+        <h2>RetailerReef</h2>
+        <div className="nav-links">
+          <a href="#">Home</a>
+          <a href="#products">Products</a>
+          <a href="#cart">Cart ({cart.length})</a>
+          <a href="#contact">Contact</a>
         </div>
       </nav>
 
-      {/* HERO */}
-      <div style={{ padding: "60px 20px", textAlign: "center", backgroundColor: "#f1f5f9" }}>
-        <h1 style={{ fontSize: "42px", marginBottom: "15px" }}>High-Quality Household Items</h1>
-        <p style={{ fontSize: "20px", maxWidth: "600px", margin: "0 auto" }}>Affordable prices. Durable products. Trusted quality.</p>
-      </div>
+      {/* Hero */}
+      <header className="hero">
+        <h1>High-Quality Household Items</h1>
+        <p>Affordable prices. Durable products. Trusted quality.</p>
+      </header>
 
-      {/* PRODUCTS */}
-      <div id="products" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "25px", padding: "40px" }}>
+      {/* Products */}
+      <section id="products" className="products-grid">
         {PRODUCTS.map(product => (
-          <div key={product.id} style={{ border: "1px solid #ccc", borderRadius: "10px", padding: "15px", textAlign: "center", backgroundColor: "white", boxShadow: "0 2px 6px rgba(0,0,0,0.1)" }}>
-            <img src={product.img} alt={product.name} style={{ width: "100%", borderRadius: "8px" }} />
-            <h3 style={{ margin: "10px 0" }}>{product.name}</h3>
-            <p style={{ fontWeight: "bold" }}>${product.price.toFixed(2)}</p>
-            <button onClick={() => addToCart(product)} style={{ padding: "10px 15px", backgroundColor: "#1e293b", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>Add to Cart</button>
+          <div key={product.id} className="product-card">
+            <img src={product.img} alt={product.name} />
+            <h3>{product.name}</h3>
+            <p>${product.price.toFixed(2)}</p>
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
-      </div>
+      </section>
 
-      {/* CART */}
-      <div id="cart" style={{ padding: "40px 20px", backgroundColor: "#f8fafc", maxWidth: "900px", margin: "0 auto" }}>
+      {/* Cart */}
+      <section id="cart" className="cart-section">
         <h2>Cart Items ({cart.length})</h2>
         {cart.length === 0 ? <p>Your cart is empty.</p> :
           <>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {cart.map((item, index) => (
-                <li key={index} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid #ccc" }}>
-                  <span>{item.name}</span>
-                  <span>${item.price.toFixed(2)}</span>
-                  <button onClick={() => removeFromCart(index)} style={{ marginLeft: "10px", cursor: "pointer" }}>Remove</button>
+            <ul>
+              {cart.map(item => (
+                <li key={item.id}>
+                  <span>{item.name} x {item.quantity}</span>
+                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <button onClick={() => removeFromCart(item.id)}>Remove</button>
                 </li>
               ))}
             </ul>
-            <h3 style={{ marginTop: "15px" }}>Total: ${totalPrice.toFixed(2)}</h3>
+            <h3>Total: ${totalPrice.toFixed(2)}</h3>
           </>
         }
-      </div>
+      </section>
 
-      {/* CONTACT */}
-      <div id="contact" style={{ padding: "40px 20px", textAlign: "center", backgroundColor: "#f1f5f9" }}>
+      {/* Contact */}
+      <section id="contact" className="contact-section">
         <h2>Contact Us</h2>
         <p>Email: <a href="mailto:contact@retailerreef.com">contact@retailerreef.com</a></p>
-      </div>
+      </section>
 
-      {/* FOOTER */}
-      <footer style={{ textAlign: "center", padding: "25px", backgroundColor: "#1e293b", color: "white" }}>
+      {/* Footer */}
+      <footer>
         © 2025 RetailerReef. All rights reserved.
       </footer>
     </div>
