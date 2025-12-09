@@ -3,43 +3,42 @@ import { ShoppingCart, Search, Menu, X, Plus, Minus, Trash2, Mail, Phone, MapPin
 
 const RetailerReef = () => {
   const [cart, setCart] = useState([]);
-  const [currentPage, setCurrentPage] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
 
-  // REALISTIC HOUSEHOLD DATA
+  // FIXED REALISTIC HOUSEHOLD IMAGES
   const products = [
-    { id: 1, name: "Premium Stainless Steel Cookware Set", category: "kitchen", price: 189.99, image: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=400&q=80", rating: 4.8, reviews: 234, badge: "Trending" },
-    { id: 2, name: "Organic Cotton Bedding Set", category: "bedroom", price: 129.99, image: "https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=400&q=80", rating: 4.9, reviews: 189 },
-    { id: 3, name: "Modern LED Desk Lamp", category: "decor", price: 45.99, image: "https://images.unsplash.com/photo-1534073828943-f801091a7d58?auto=format&fit=crop&w=400&q=80", rating: 4.6, reviews: 156 },
-    { id: 4, name: "Eco-Friendly Cleaning Kit", category: "cleaning", price: 34.99, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 298 },
-    { id: 5, name: "Ceramic Dinnerware Set", category: "kitchen", price: 79.99, image: "https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?auto=format&fit=crop&w=400&q=80", rating: 4.8, reviews: 412, badge: "Popular" },
-    { id: 6, name: "Memory Foam Bath Mat", category: "bathroom", price: 28.99, image: "https://images.unsplash.com/photo-1605619141774-633b45a0b59b?auto=format&fit=crop&w=400&q=80", rating: 4.5, reviews: 167 },
-    { id: 7, name: "Bamboo Kitchen Utensils", category: "kitchen", price: 24.99, image: "https://images.unsplash.com/photo-1594385208974-2e75f8d7bb48?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 289 },
-    { id: 8, name: "Luxury Bath Towel Set", category: "bathroom", price: 54.99, image: "https://images.unsplash.com/photo-1616627547584-bf28cee262db?auto=format&fit=crop&w=400&q=80", rating: 4.9, reviews: 356, badge: "Premium" },
-    { id: 9, name: "Glass Storage Containers", category: "kitchen", price: 39.99, image: "https://images.unsplash.com/photo-1612681621979-5668293e4496?auto=format&fit=crop&w=400&q=80", rating: 4.6, reviews: 201 },
-    { id: 10, name: "Decorative Throw Pillows", category: "decor", price: 42.99, image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?auto=format&fit=crop&w=400&q=80", rating: 4.4, reviews: 178 },
-    { id: 11, name: "Stainless Steel Trash Can", category: "cleaning", price: 67.99, image: "https://images.unsplash.com/photo-1594306352932-d81a98083812?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 145 },
-    { id: 12, name: "Electric Coffee Maker", category: "kitchen", price: 89.99, image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80", rating: 4.8, reviews: 523, badge: "Best Seller" },
-    { id: 13, name: "Wall Mounted Coat Rack", category: "decor", price: 32.99, image: "https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?auto=format&fit=crop&w=400&q=80", rating: 4.5, reviews: 98 },
-    { id: 14, name: "Shower Curtain Set", category: "bathroom", price: 26.99, image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=400&q=80", rating: 4.6, reviews: 267 },
-    { id: 15, name: "Professional Knife Set", category: "kitchen", price: 119.99, image: "https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=400&q=80", rating: 4.9, reviews: 445 },
-    { id: 16, name: "Modern Area Rug", category: "decor", price: 149.99, image: "https://images.unsplash.com/photo-1575414003502-c424b94c34a2?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 189 },
-    { id: 17, name: "Laundry Hamper", category: "cleaning", price: 38.99, image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=400&q=80", rating: 4.5, reviews: 134 },
-    { id: 18, name: "Non-Stick Baking Set", category: "kitchen", price: 29.99, image: "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=400&q=80", rating: 4.8, reviews: 312 },
-    { id: 19, name: "Bathroom Organizer", category: "bathroom", price: 44.99, image: "https://images.unsplash.com/photo-1633505367807-6c23ae671f54?auto=format&fit=crop&w=400&q=80", rating: 4.6, reviews: 223 },
-    { id: 20, name: "Designer Table Lamp", category: "decor", price: 56.99, image: "https://images.unsplash.com/photo-1507473888900-52e1ad145986?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 176 },
-    { id: 21, name: "Vacuum Storage Bags", category: "cleaning", price: 22.99, image: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=400&q=80", rating: 4.4, reviews: 267 },
-    { id: 22, name: "Bamboo Cutting Boards", category: "kitchen", price: 34.99, image: "https://images.unsplash.com/photo-1582236967069-b3a62057929c?auto=format&fit=crop&w=400&q=80", rating: 4.8, reviews: 398 },
-    { id: 23, name: "Decorative Wall Mirror", category: "decor", price: 79.99, image: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=400&q=80", rating: 4.6, reviews: 145 },
-    { id: 24, name: "Soap Dispenser Set", category: "bathroom", price: 31.99, image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=400&q=80", rating: 4.5, reviews: 189 },
-    { id: 25, name: "Stainless Mixing Bowls", category: "kitchen", price: 42.99, image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 276 },
-    { id: 26, name: "Microfiber Cleaning Set", category: "cleaning", price: 18.99, image: "https://images.unsplash.com/photo-1585833895995-1c5c179c3cb6?auto=format&fit=crop&w=400&q=80", rating: 4.8, reviews: 534 },
-    { id: 27, name: "Elegant Candle Holders", category: "decor", price: 36.99, image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=400&q=80", rating: 4.6, reviews: 198 },
-    { id: 28, name: "Shower Caddy Premium", category: "bathroom", price: 27.99, image: "https://images.unsplash.com/photo-1555096462-c1c5eb4e4dce?auto=format&fit=crop&w=400&q=80", rating: 4.7, reviews: 245 }
+    { id: 1, name: "Premium Stainless Cookware Set", category: "kitchen", price: 189.99, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&q=80", rating: 4.8, reviews: 234, badge: "Trending" },
+    { id: 2, name: "Organic Cotton Bedding", category: "bedroom", price: 129.99, image: "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=500&q=80", rating: 4.9, reviews: 189 },
+    { id: 3, name: "Modern LED Desk Lamp", category: "decor", price: 45.99, image: "https://images.unsplash.com/photo-1507473888900-52e1ad145986?w=500&q=80", rating: 4.6, reviews: 156 },
+    { id: 4, name: "Eco-Friendly Cleaning Kit", category: "cleaning", price: 34.99, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500&q=80", rating: 4.7, reviews: 298 },
+    { id: 5, name: "Ceramic Dinnerware Set", category: "kitchen", price: 79.99, image: "https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?w=500&q=80", rating: 4.8, reviews: 412, badge: "Popular" },
+    { id: 6, name: "Memory Foam Bath Mat", category: "bathroom", price: 28.99, image: "https://images.unsplash.com/photo-1576426863863-10d786a2991b?w=500&q=80", rating: 4.5, reviews: 167 },
+    { id: 7, name: "Bamboo Kitchen Utensils", category: "kitchen", price: 24.99, image: "https://images.unsplash.com/photo-1594385208974-2e75f8d7bb48?w=500&q=80", rating: 4.7, reviews: 289 },
+    { id: 8, name: "Luxury Bath Towel Set", category: "bathroom", price: 54.99, image: "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=500&q=80", rating: 4.9, reviews: 356, badge: "Premium" },
+    { id: 9, name: "Glass Storage Containers", category: "kitchen", price: 39.99, image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=500&q=80", rating: 4.6, reviews: 201 },
+    { id: 10, name: "Decorative Throw Pillows", category: "decor", price: 42.99, image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e6?w=500&q=80", rating: 4.4, reviews: 178 },
+    { id: 11, name: "Stainless Steel Trash Can", category: "cleaning", price: 67.99, image: "https://images.unsplash.com/photo-1594306352932-d81a98083812?w=500&q=80", rating: 4.7, reviews: 145 },
+    { id: 12, name: "Electric Coffee Maker", category: "kitchen", price: 89.99, image: "https://images.unsplash.com/photo-1520981825232-ece5fae45120?w=500&q=80", rating: 4.8, reviews: 523, badge: "Best Seller" },
+    { id: 13, name: "Wall Mounted Coat Rack", category: "decor", price: 32.99, image: "https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?w=500&q=80", rating: 4.5, reviews: 98 },
+    { id: 14, name: "Shower Curtain Set", category: "bathroom", price: 26.99, image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80", rating: 4.6, reviews: 267 },
+    { id: 15, name: "Professional Knife Set", category: "kitchen", price: 119.99, image: "https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&q=80", rating: 4.9, reviews: 445 },
+    { id: 16, name: "Modern Area Rug", category: "decor", price: 149.99, image: "https://images.unsplash.com/photo-1575414003502-c424b94c34a2?w=500&q=80", rating: 4.7, reviews: 189 },
+    { id: 17, name: "Laundry Hamper", category: "cleaning", price: 38.99, image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=500&q=80", rating: 4.5, reviews: 134 },
+    { id: 18, name: "Non-Stick Baking Set", category: "kitchen", price: 29.99, image: "https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=500&q=80", rating: 4.8, reviews: 312 },
+    { id: 19, name: "Bathroom Organizer", category: "bathroom", price: 44.99, image: "https://images.unsplash.com/photo-1633505367807-6c23ae671f54?w=500&q=80", rating: 4.6, reviews: 223 },
+    { id: 20, name: "Designer Table Lamp", category: "decor", price: 56.99, image: "https://images.unsplash.com/photo-1513506003013-19c6cd0868cb?w=500&q=80", rating: 4.7, reviews: 176 },
+    { id: 21, name: "Vacuum Storage Bags", category: "cleaning", price: 22.99, image: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=500&q=80", rating: 4.4, reviews: 267 },
+    { id: 22, name: "Bamboo Cutting Boards", category: "kitchen", price: 34.99, image: "https://images.unsplash.com/photo-1582236967069-b3a62057929c?w=500&q=80", rating: 4.8, reviews: 398 },
+    { id: 23, name: "Decorative Wall Mirror", category: "decor", price: 79.99, image: "https://images.unsplash.com/photo-1618220179428-22790b461013?w=500&q=80", rating: 4.6, reviews: 145 },
+    { id: 24, name: "Soap Dispenser Set", category: "bathroom", price: 31.99, image: "https://images.unsplash.com/photo-1585779034823-7e9ac48abd9e?w=500&q=80", rating: 4.5, reviews: 189 },
+    { id: 25, name: "Stainless Mixing Bowls", category: "kitchen", price: 42.99, image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=500&q=80", rating: 4.7, reviews: 276 },
+    { id: 26, name: "Microfiber Cleaning Set", category: "cleaning", price: 18.99, image: "https://images.unsplash.com/photo-1585833895995-1c5c179c3cb6?w=500&q=80", rating: 4.8, reviews: 534 },
+    { id: 27, name: "Elegant Candle Holders", category: "decor", price: 36.99, image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&q=80", rating: 4.6, reviews: 198 },
+    { id: 28, name: "Shower Caddy Premium", category: "bathroom", price: 27.99, image: "https://images.unsplash.com/photo-1555096462-c1c5eb4e4dce?w=500&q=80", rating: 4.7, reviews: 245 }
   ];
 
   const categories = [
@@ -61,6 +60,14 @@ const RetailerReef = () => {
 
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  };
 
   const addToCart = (product) => {
     const existing = cart.find(item => item.id === product.id);
@@ -97,6 +104,7 @@ const RetailerReef = () => {
           src={product.image} 
           alt={product.name}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          onError={(e) => {e.target.src = 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&q=80'}} // Fallback image
         />
         {product.badge && (
           <div className="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold z-10 shadow-sm">
@@ -135,267 +143,27 @@ const RetailerReef = () => {
     </div>
   );
 
-  const HomePage = () => (
-    <div className="space-y-12 md:space-y-16 animate-fade-in">
-      <div className="relative bg-gray-900 text-white rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=1600&q=80" 
-            alt="Hero" 
-            className="w-full h-full object-cover opacity-60"
-          />
-        </div>
-        <div className="relative z-10 px-6 md:px-12 py-16 md:py-32 text-center md:text-left">
-          <h1 className="text-3xl md:text-6xl font-extrabold mb-4 leading-tight">
-            Elevate Your <br className="hidden md:block"/>Everyday Living
-          </h1>
-          <p className="text-gray-200 text-base md:text-xl mb-8 max-w-xl mx-auto md:mx-0">
-            Discover our curated collection of premium household essentials. From chef-grade cookware to luxury linens.
-          </p>
-          <button 
-            onClick={() => setCurrentPage('products')}
-            className="bg-white text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition transform hover:scale-105 shadow-lg"
-          >
-            Shop Collection
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { icon: Truck, title: "Free Shipping", sub: "On orders over $50", color: "text-blue-600", bg: "bg-blue-50" },
-          { icon: Shield, title: "Secure Payment", sub: "100% Protected", color: "text-green-600", bg: "bg-green-50" },
-          { icon: Award, title: "Premium Quality", sub: "Certified Products", color: "text-purple-600", bg: "bg-purple-50" },
-          { icon: ChevronRight, title: "Easy Returns", sub: "30-Day Guarantee", color: "text-orange-600", bg: "bg-orange-50" }
-        ].map((item, idx) => (
-          <div key={idx} className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-            <div className={`${item.bg} w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3`}>
-              <item.icon className={item.color} size={24} />
-            </div>
-            <h3 className="font-bold text-gray-900 text-sm md:text-base">{item.title}</h3>
-            <p className="text-xs text-gray-500 mt-1">{item.sub}</p>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-gray-900">Shop by Category</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {categories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => { setSelectedCategory(cat.id); setCurrentPage('products'); }}
-              className="group bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all border border-gray-100"
-            >
-              <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">{cat.icon}</div>
-              <p className="text-sm font-semibold text-gray-700 group-hover:text-blue-600">{cat.name}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <div className="flex justify-between items-end mb-8 px-2">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Featured Products</h2>
-            <p className="text-gray-500 text-sm mt-1">Handpicked for your home</p>
-          </div>
-          <button 
-             onClick={() => setCurrentPage('products')}
-             className="text-blue-600 font-semibold text-sm hover:underline"
-          >
-            View All
-          </button>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.slice(0, 4).map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const ProductsPage = () => (
-    <div className="animate-fade-in">
-      <div className="bg-white rounded-2xl shadow-sm p-6 mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">Our Collection</h1>
-        
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="relative flex-grow">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-gray-50 border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            />
-          </div>
-          
-          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`whitespace-nowrap px-5 py-3 rounded-xl font-medium transition-all text-sm ${
-                  selectedCategory === cat.id
-                    ? 'bg-gray-900 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-
-      {filteredProducts.length === 0 && (
-        <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
-          <Search size={48} className="mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500 font-medium">No products found matching your criteria</p>
-          <button 
-            onClick={() => {setSearchQuery(''); setSelectedCategory('all');}}
-            className="mt-4 text-blue-600 font-semibold hover:underline"
-          >
-            Clear Filters
-          </button>
-        </div>
-      )}
-    </div>
-  );
-
-  const ContactPage = () => (
-    <div className="max-w-4xl mx-auto animate-fade-in">
-      <h1 className="text-3xl md:text-4xl font-bold mb-2 text-center text-gray-900">Get in Touch</h1>
-      <p className="text-center text-gray-500 mb-10">We'd love to hear from you. Here's how you can reach us.</p>
-      
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-            <div className="flex items-start gap-4">
-              <div className="bg-blue-50 p-3 rounded-xl">
-                <Mail className="text-blue-600" size={24} />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 mb-1">Email Support</h3>
-                <p className="text-gray-500 text-sm mb-2">Our team is here to help.</p>
-                <a href="mailto:contact@retailerreef.com" className="text-blue-600 font-semibold hover:underline">
-                  contact@retailerreef.com
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-            <div className="flex items-start gap-4">
-              <div className="bg-green-50 p-3 rounded-xl">
-                <Phone className="text-green-600" size={24} />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 mb-1">Phone</h3>
-                <p className="text-gray-500 text-sm mb-2">Mon-Fri from 8am to 5pm.</p>
-                <p className="font-semibold text-gray-900">+1 (555) 123-4567</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-            <div className="flex items-start gap-4">
-              <div className="bg-purple-50 p-3 rounded-xl">
-                <MapPin className="text-purple-600" size={24} />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 mb-1">Office</h3>
-                <p className="text-gray-500 text-sm">
-                  123 Retail Street<br />Commerce City, RC 12345
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-          <h2 className="text-xl font-bold mb-6 text-gray-900">Send us a Message</h2>
-          <form onSubmit={handleContactSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <input
-                type="text"
-                required
-                value={contactForm.name}
-                onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                placeholder="John Doe"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input
-                type="email"
-                required
-                value={contactForm.email}
-                onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                placeholder="john@example.com"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-              <textarea
-                required
-                value={contactForm.message}
-                onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
-                rows="4"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none"
-                placeholder="How can we help you?"
-              ></textarea>
-            </div>
-            
-            <button
-              type="submit"
-              className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-gray-800 transform hover:scale-[1.02] transition-all shadow-lg"
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
-      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+      <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 
               className="text-xl md:text-2xl font-black tracking-tight text-gray-900 cursor-pointer flex items-center gap-2"
-              onClick={() => setCurrentPage('home')}
+              onClick={() => scrollToSection('home')}
             >
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">R</div>
               RetailerReef
             </h1>
             
-            <nav className="hidden md:flex items-center bg-gray-100 rounded-full p-1">
-              {['home', 'products', 'contact'].map((page) => (
+            <nav className="hidden md:flex items-center gap-6">
+              {['home', 'products', 'contact'].map((section) => (
                 <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
-                    currentPage === page ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'
-                  } capitalize`}
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className="text-sm font-semibold text-gray-600 hover:text-blue-600 uppercase tracking-wide transition-colors"
                 >
-                  {page}
+                  {section}
                 </button>
               ))}
             </nav>
@@ -424,15 +192,13 @@ const RetailerReef = () => {
 
           {mobileMenuOpen && (
             <nav className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-xl py-4 px-4 flex flex-col gap-2 animate-fade-in">
-              {['home', 'products', 'contact'].map((page) => (
+              {['home', 'products', 'contact'].map((section) => (
                 <button
-                  key={page}
-                  onClick={() => { setCurrentPage(page); setMobileMenuOpen(false); }}
-                  className={`w-full text-left px-4 py-3 rounded-xl font-medium capitalize ${
-                    currentPage === page ? 'bg-blue-50 text-blue-600' : 'text-gray-600'
-                  }`}
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className="w-full text-left px-4 py-3 rounded-xl font-medium capitalize hover:bg-gray-50 text-gray-700"
                 >
-                  {page}
+                  {section}
                 </button>
               ))}
             </nav>
@@ -440,8 +206,9 @@ const RetailerReef = () => {
         </div>
       </header>
 
+      {/* CART MODAL (Same as before) */}
       {cartOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 transition-opacity" onClick={() => setCartOpen(false)}>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] transition-opacity" onClick={() => setCartOpen(false)}>
           <div
             className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl overflow-y-auto animate-slide-in"
             onClick={(e) => e.stopPropagation()}
@@ -459,10 +226,10 @@ const RetailerReef = () => {
                   <ShoppingCart size={64} className="mb-4" />
                   <p className="text-lg font-medium">Your cart is empty</p>
                   <button 
-                    onClick={() => setCartOpen(false)}
+                    onClick={() => {setCartOpen(false); scrollToSection('products');}}
                     className="mt-4 text-blue-600 font-semibold hover:underline"
                   >
-                    Continue Shopping
+                    Start Shopping
                   </button>
                 </div>
               ) : (
@@ -505,7 +272,6 @@ const RetailerReef = () => {
                       </div>
                     ))}
                   </div>
-
                   <div className="border-t border-gray-100 pt-6 mt-6 space-y-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between text-gray-600">
@@ -532,72 +298,222 @@ const RetailerReef = () => {
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {currentPage === 'home' && <HomePage />}
-        {currentPage === 'products' && <ProductsPage />}
-        {currentPage === 'contact' && <ContactPage />}
-      </main>
+      {/* --- HERO SECTION --- */}
+      <section id="home" className="relative bg-gray-900 text-white min-h-[600px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1600&q=80" 
+            alt="Hero" 
+            className="w-full h-full object-cover opacity-50"
+          />
+        </div>
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-7xl font-extrabold mb-6 leading-tight">
+            Make Your Home <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">A Masterpiece</span>
+          </h1>
+          <p className="text-gray-200 text-lg md:text-2xl mb-10 max-w-2xl mx-auto">
+            Discover our curated collection of premium household essentials. From chef-grade cookware to luxury linens.
+          </p>
+          <button 
+            onClick={() => scrollToSection('products')}
+            className="bg-white text-gray-900 px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition transform hover:scale-105 shadow-xl"
+          >
+            Shop Collection
+          </button>
+        </div>
+      </section>
 
-      <footer className="bg-white border-t border-gray-100 mt-20">
-        <div className="max-w-7xl mx-auto px-4 py-16">
-          <div className="grid md:grid-cols-4 gap-12">
-            <div>
-              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-white text-xs">R</div>
-                RetailerReef
-              </h3>
-              <p className="text-gray-500 leading-relaxed mb-6">
-                Premium household essentials designed to elevate your everyday living. Quality, style, and comfort delivered to your door.
-              </p>
-              <div className="flex gap-4">
-                {/* Social placeholders */}
-                <div className="w-8 h-8 bg-gray-100 rounded-full hover:bg-blue-600 hover:text-white transition-colors cursor-pointer"></div>
-                <div className="w-8 h-8 bg-gray-100 rounded-full hover:bg-blue-600 hover:text-white transition-colors cursor-pointer"></div>
-                <div className="w-8 h-8 bg-gray-100 rounded-full hover:bg-blue-600 hover:text-white transition-colors cursor-pointer"></div>
+      {/* --- FEATURES STRIP --- */}
+      <div className="bg-white border-b border-gray-100 py-8">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { icon: Truck, title: "Free Shipping", sub: "On orders over $50", color: "text-blue-600", bg: "bg-blue-50" },
+            { icon: Shield, title: "Secure Payment", sub: "100% Protected", color: "text-green-600", bg: "bg-green-50" },
+            { icon: Award, title: "Premium Quality", sub: "Certified Products", color: "text-purple-600", bg: "bg-purple-50" },
+            { icon: ChevronRight, title: "Easy Returns", sub: "30-Day Guarantee", color: "text-orange-600", bg: "bg-orange-50" }
+          ].map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center text-center md:flex-row md:text-left gap-4 p-4 rounded-xl hover:bg-gray-50 transition">
+              <div className={`${item.bg} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0`}>
+                <item.icon className={item.color} size={24} />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 text-sm md:text-base">{item.title}</h3>
+                <p className="text-xs text-gray-500">{item.sub}</p>
               </div>
             </div>
-            
-            <div>
-              <h4 className="font-bold text-gray-900 mb-6">Quick Links</h4>
-              <ul className="space-y-4 text-gray-500">
-                <li><button onClick={() => setCurrentPage('home')} className="hover:text-blue-600 transition-colors">Home</button></li>
-                <li><button onClick={() => setCurrentPage('products')} className="hover:text-blue-600 transition-colors">Shop All</button></li>
-                <li><button onClick={() => setCurrentPage('contact')} className="hover:text-blue-600 transition-colors">Contact Us</button></li>
-                <li><button className="hover:text-blue-600 transition-colors">Track Order</button></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-bold text-gray-900 mb-6">Customer Care</h4>
-              <ul className="space-y-4 text-gray-500">
-                <li><button className="hover:text-blue-600 transition-colors">Shipping Policy</button></li>
-                <li><button className="hover:text-blue-600 transition-colors">Returns & Refunds</button></li>
-                <li><button className="hover:text-blue-600 transition-colors">FAQ</button></li>
-                <li><button className="hover:text-blue-600 transition-colors">Terms of Service</button></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-bold text-gray-900 mb-6">Contact Info</h4>
-              <ul className="space-y-4 text-gray-500">
-                <li className="flex items-center gap-3">
-                  <Mail size={16} className="text-blue-600" />
-                  contact@retailerreef.com
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone size={16} className="text-green-600" />
-                  +1 (555) 123-4567
-                </li>
-                <li className="flex items-center gap-3">
-                  <MapPin size={16} className="text-purple-600" />
-                  123 Retail Street, Commerce City
-                </li>
-              </ul>
+          ))}
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-4 py-16 space-y-24">
+        
+        {/* --- CATEGORIES --- */}
+        <section>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+            <div className="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {categories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => { 
+                  setSelectedCategory(cat.id); 
+                  scrollToSection('products'); 
+                }}
+                className={`group rounded-2xl p-6 text-center transition-all border ${
+                  selectedCategory === cat.id 
+                  ? 'bg-gray-900 text-white shadow-lg border-gray-900' 
+                  : 'bg-white text-gray-700 hover:shadow-lg border-gray-100 hover:border-gray-200'
+                }`}
+              >
+                <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">{cat.icon}</div>
+                <p className="text-sm font-semibold">{cat.name}</p>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* --- ALL PRODUCTS SECTION --- */}
+        <section id="products" className="scroll-mt-24">
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8 mb-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900">Our Collection</h2>
+                <p className="text-gray-500 mt-1">Showing {filteredProducts.length} premium products</p>
+              </div>
+              
+              <div className="relative w-full md:w-96">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
             </div>
           </div>
-          
-          <div className="border-t border-gray-100 mt-16 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 RetailerReef. All rights reserved.</p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            {filteredProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          {filteredProducts.length === 0 && (
+            <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
+              <Search size={48} className="mx-auto text-gray-300 mb-4" />
+              <p className="text-gray-500 font-medium">No products found matching your criteria</p>
+              <button 
+                onClick={() => {setSearchQuery(''); setSelectedCategory('all');}}
+                className="mt-4 text-blue-600 font-semibold hover:underline"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* --- CONTACT SECTION --- */}
+        <section id="contact" className="scroll-mt-24">
+          <div className="bg-gray-900 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="grid md:grid-cols-2">
+              <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Let's Get in Touch</h2>
+                <p className="text-gray-300 mb-8 text-lg">
+                  Have questions about our products or your order? We're here to help you upgrade your home.
+                </p>
+                
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4 text-white">
+                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                      <Mail className="text-blue-400" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">Email us</p>
+                      <p className="font-semibold">contact@retailerreef.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-white">
+                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                      <Phone className="text-green-400" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">Call us</p>
+                      <p className="font-semibold">+1 (555) 123-4567</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-white">
+                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                      <MapPin className="text-purple-400" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">Visit us</p>
+                      <p className="font-semibold">123 Retail Street, Commerce City</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 md:p-12 lg:p-16">
+                <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-900 mb-2">Your Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-900 mb-2">Email Address</label>
+                    <input
+                      type="email"
+                      required
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      placeholder="john@example.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-900 mb-2">Message</label>
+                    <textarea
+                      required
+                      value={contactForm.message}
+                      onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                      rows="4"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
+                      placeholder="How can we help?"
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg transform active:scale-95"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-gray-900 text-white py-12 mt-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">R</div>
+             RetailerReef
+          </h2>
+          <p className="text-gray-400 mb-8 max-w-md mx-auto">Premium household essentials designed to elevate your everyday living. Quality, style, and comfort.</p>
+          <div className="border-t border-gray-800 pt-8 text-sm text-gray-500">
+            &copy; 2024 RetailerReef. All rights reserved.
           </div>
         </div>
       </footer>
